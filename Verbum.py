@@ -17,10 +17,26 @@ os.system('cls' if os.name == 'nt' else 'clear')
 # Securely get user password and store it as variable "password"
 password = getpass.getpass("Enter MySQL password: ")
 
+# Check if MySQL server is running
+result = subprocess.run(["python3", "sqlcheck.py"])
+if result.returncode == 0:
+    print("Connecting to MySQL")
+else:
+    print("MySQL server is not running!")
+    exit(1)
+
+# Perform first time setup
+print("Loading...")
+subprocess.run(["python3", "wordcheck.py"])
+
 con=mysql.connector.connect(user='root', host='localhost', database='Verbum', password=password)
 
 # Clear password to save memory and for security
 password = ""
+
+# User greeting
+
+subprocess.run(["python3", "title.py"])
 
 cur=con.cursor()
 play=input('Have you played with us before? \n(Y/N)').strip().upper()
@@ -50,7 +66,6 @@ if play=='N':
         if answer == "y":
             print("Performing first time setup...")
             subprocess.run(["python3", "sqlconnect.py"])
-            subprocess.run(["python3", "Six_Letter_Words.py"])
         else:
             print("Starting game...")
         cur.execute('Select username from users')
