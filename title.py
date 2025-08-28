@@ -8,4 +8,4 @@ ascii_art = r"""
     \_/ \___|_|  |_.__/ \__,_|_| |_| |_|
 """
 
-print(colored(ascii_art, "magenta", attrs=["bold"]))
+print(colored(ascii_art, "magenta", attrs=["bold"]) + colored(ascii_art, "magenta", attrs=["bold"]))
